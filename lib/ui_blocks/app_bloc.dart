@@ -62,9 +62,10 @@ class AppState {
 }
 
 class AppBloc extends Bloc<AppEvent, AppState> {
-  AppBloc() : super(AppState(dataPacket: DataPacket('',[]), isRunning: false, isServer: true)) {
 
-    StreamSubscription? _dataSubscription;
+  late StreamSubscription? _dataSubscription;
+
+  AppBloc() : super(AppState(dataPacket: DataPacket('',[]), isRunning: false, isServer: true)) {
 
     ServiceMock.instance()?.setAppBloc(this);
 
@@ -141,4 +142,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       ));
     });
   }
+
+  @override
+  Future<void> close() {
+    _dataSubscription?.cancel();
+    return super.close();
+  }
+
 }
