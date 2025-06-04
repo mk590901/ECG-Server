@@ -33,7 +33,13 @@ class ControlPanel extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      context.read<AppBloc>().add(ToggleRunningEvent());
+                      //context.read<AppBloc>().add(ToggleRunningEvent());
+                      if (state.isRunning) {
+                        context.read<AppBloc>().add(StopService());
+                      }
+                      else {
+                        context.read<AppBloc>().add(StartService());
+                      }
                     },
                     child: Text(state.isRunning ? 'Stop' : 'Start'),
                   ),
