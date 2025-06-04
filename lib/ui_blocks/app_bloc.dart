@@ -30,6 +30,11 @@ class UpdateDataEvent extends AppEvent {
   UpdateDataEvent(this.presence, this.id, this.rawData);
 }
 
+class UpdateData extends AppEvent {
+  final int counter;
+  UpdateData(this.counter);
+}
+
 class AppState {
   final bool isRunning;
   final bool isServer;
@@ -80,7 +85,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         //List<double> rawData = List<double>.from(data['numbers'].map((e) => e as double));
         print('receivePort: $counter');
         //DataHolder.instance()?.putData(rawData);
-        //add(UpdateData(counter, rawData));
+        add(UpdateData(counter));
       }
     });
 
@@ -122,15 +127,18 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       emit(state.copyWith(isServer: !state.isServer));
     });
 
-
-
-
-
-
     on<UpdateDataEvent>((event, emit) {
       print ('UpdateDataEvent [${event.presence}] [${event.id}]');
       emit(state.copyWith(dataPacket: DataPacket(event.id,event.rawData)));
     });
 
+    on<UpdateData>((event, emit) {
+      emit(AppState(
+        isRunning: state.isRunning,
+        counter: event.counter,
+        isServer: state.isServer,
+        dataPacket: state.dataPacket,
+      ));
+    });
   }
 }

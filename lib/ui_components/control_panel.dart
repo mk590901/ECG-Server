@@ -43,6 +43,9 @@ class ControlPanel extends StatelessWidget {
                     },
                     child: Text(state.isRunning ? 'Stop' : 'Start'),
                   ),
+
+                  Text('# ${state.counter}'),
+
                   Row(
                     children: [
                       Text(state.isServer ? 'Server' : 'Client'),
