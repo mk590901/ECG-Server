@@ -35,15 +35,22 @@ class UpdateData extends AppEvent {
   UpdateData(this.counter);
 }
 
+class SendData extends AppEvent {
+  final String data;
+  SendData(this.data);
+}
+
 class AppState {
   final bool isRunning;
   final bool isServer;
   final int counter;
+  final String sentData;
   final DataPacket dataPacket;
 
   AppState( {
     required this.isRunning,
     this.counter = 0,
+    this.sentData = '',
     required this.isServer,
     required this.dataPacket
   });
@@ -141,6 +148,21 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         dataPacket: state.dataPacket,
       ));
     });
+
+
+    on<SendData>((event, emit) async {
+      print('Sending data to service: ${event.data}');
+      FlutterForegroundTask.sendData({'data': event.data});
+
+      emit(AppState(
+        isRunning: state.isRunning,
+        counter: state.counter,
+        sentData: event.data,
+        isServer: state.isServer,
+        dataPacket: state.dataPacket,
+      ));
+    });
+
   }
 
   @override

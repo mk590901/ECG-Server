@@ -99,11 +99,11 @@ class ServiceTaskHandler extends TaskHandler {
     if (data is Map && data.containsKey('data')) {
       final String receivedData = data['data'] as String;
       print('Service received data: $receivedData');
-      FlutterForegroundTask.updateService(
-        foregroundTaskOptions: const ForegroundTaskOptions(interval: 1000,),
-        notificationTitle: 'Foreground Service',
-        notificationText: 'Received: $receivedData',
-      );
+      // FlutterForegroundTask.updateService(
+      //   foregroundTaskOptions: const ForegroundTaskOptions(interval: 1000,),
+      //   notificationTitle: 'Foreground Service',
+      //   notificationText: 'Received: $receivedData',
+      // );
     } else {
       print('Invalid data format: $data');
     }
