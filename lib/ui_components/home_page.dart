@@ -101,7 +101,7 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (context.read<AppBloc>().state.isRunning) {
-            context.read<AppBloc>().add(SendData('command to add'));
+            context.read<AppBloc>().add(SendData('add_item',''));
             // context.read<ItemsBloc>().add(
             //   CreateItemEvent((objectId,series) {
             //     context.read<ItemsBloc>().add(AddItemEvent(objectId, series));

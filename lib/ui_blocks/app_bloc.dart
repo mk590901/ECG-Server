@@ -36,8 +36,9 @@ class UpdateData extends AppEvent {
 }
 
 class SendData extends AppEvent {
+  final String command;
   final String data;
-  SendData(this.data);
+  SendData(this.command, this.data);
 }
 
 class AppState {
@@ -151,13 +152,13 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
 
     on<SendData>((event, emit) async {
-      print('Sending data to service: ${event.data}');
-      FlutterForegroundTask.sendData({'data': event.data});
+      print('Sending data to service: ${event.command}:${event.data}');
+      FlutterForegroundTask.sendData({'command': event.command, 'data': event.data});
 
       emit(AppState(
         isRunning: state.isRunning,
         counter: state.counter,
-        sentData: event.data,
+        sentData: event.data, //  command?
         isServer: state.isServer,
         dataPacket: state.dataPacket,
       ));

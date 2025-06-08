@@ -96,9 +96,10 @@ class ServiceTaskHandler extends TaskHandler {
   @override
   void onReceiveData (dynamic data) {
     print('onDataReceived called with data: $data');
-    if (data is Map && data.containsKey('data')) {
+    if (data is Map && data.containsKey('command') &&  data.containsKey('data')) {
+      final String command = data['command'] as String;
       final String receivedData = data['data'] as String;
-      print('Service received data: $receivedData');
+      print('Service received: $command:($receivedData)');
       // FlutterForegroundTask.updateService(
       //   foregroundTaskOptions: const ForegroundTaskOptions(interval: 1000,),
       //   notificationTitle: 'Foreground Service',
