@@ -89,13 +89,24 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     });
 
     _dataSubscription = FlutterForegroundTask.receivePort?.listen((data) {
-      if (data is Map && data.containsKey('counter') && data.containsKey('numbers')) {
-        int counter = data['counter'] as int;
-        //List<double> rawData = List<double>.from(data['numbers'].map((e) => e as double));
-        print('receivePort: $counter');
-        //DataHolder.instance()?.putData(rawData);
-        add(UpdateData(counter));
+
+      if (data is Map && data.containsKey('response') && data.containsKey('value')) {
+        String command = data['response'] as String;
+        print('listener.command->[$command]');
+        int counter = 0;
+        if (command == 'counter') {
+          counter = data['value'] as int;
+          add(UpdateData(counter));
+        }
       }
+
+      // if (data is Map && data.containsKey('counter') && data.containsKey('numbers')) {
+      //   int counter = data['counter'] as int;
+      //   //List<double> rawData = List<double>.from(data['numbers'].map((e) => e as double));
+      //   print('receivePort: $counter');
+      //   //DataHolder.instance()?.putData(rawData);
+      //   add(UpdateData(counter));
+      // }
     });
 
     on<StartService>((event, emit) async {

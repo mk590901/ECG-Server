@@ -6,6 +6,7 @@ import 'dart:math';
 
 //import '../data_collection/data_holder.dart';
 import '../ecg_simulator/ecg_simulator.dart';
+import '../mock/simulator_wrapper.dart';
 
 // Initialize the foreground service
 Future<void> initializeForegroundService() async {
@@ -35,9 +36,12 @@ Future<void> initializeForegroundService() async {
 
 // Task handler for the foreground service
 class ServiceTaskHandler extends TaskHandler {
+
+  final Map<String,SimulatorWrapper> container = {};
+
   int counter = 0;
   final Random random = Random();
-  final EcgSimulator ecgSimulator = EcgSimulator(128);
+  //final EcgSimulator ecgSimulator = EcgSimulator(128);
   SendPort? _sendPort;
 
   @override
@@ -46,15 +50,18 @@ class ServiceTaskHandler extends TaskHandler {
     print('Foreground service started');
     // Send initial data
     _sendPort?.send({
-      'counter': counter,
-      'numbers': [],
+      // 'counter': counter,
+      // 'numbers': [],
+      'response': 'counter',
+      'value': counter,
+
     });
   }
 
   @override
   void onRepeatEvent(DateTime timestamp, SendPort? sendPort) async {
     counter++;
-    List<double> numbers = ecgSimulator.generateECGData();
+    List<double> numbers = []; //ecgSimulator.generateECGData();
     //@print('Foreground service running: $counter, numbers: ${numbers.length}');
     // Update notification
     await FlutterForegroundTask.updateService(
@@ -72,8 +79,11 @@ class ServiceTaskHandler extends TaskHandler {
 
     // Send data to app
     sendPort?.send({
-      'counter': counter,
-      'numbers': numbers,
+      // 'counter': counter,
+      // 'numbers': numbers,
+      'response': 'counter',
+      'value': counter,
+
     });
   }
 
@@ -100,6 +110,17 @@ class ServiceTaskHandler extends TaskHandler {
       final String command = data['command'] as String;
       final String receivedData = data['data'] as String;
       print('Service received: $command:($receivedData)');
+      if (command == 'add_item') {
+        String? id = add()?? '';
+        print ('add item -> [$id]');
+        // Send data to app
+        _sendPort?.send({
+          'response': 'added',
+          'value': id,
+        });
+      }
+
+
       // FlutterForegroundTask.updateService(
       //   foregroundTaskOptions: const ForegroundTaskOptions(interval: 1000,),
       //   notificationTitle: 'Foreground Service',
@@ -109,6 +130,17 @@ class ServiceTaskHandler extends TaskHandler {
       print('Invalid data format: $data');
     }
   }
+////////////////////////////////////////////////////////////////////////////////
+  int size() {
+    return container.length;
+  }
+
+  String? add() {
+    SimulatorWrapper wrapper = SimulatorWrapper();
+    container[wrapper.id()] = wrapper;
+    return wrapper.id();
+  }
+//////////////////////////////////////////////////////////////////////////////////////////
 }
 
 // Entry point for the foreground task
