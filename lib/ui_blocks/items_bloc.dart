@@ -82,13 +82,15 @@ class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
 
       //@event.graphWidget.stop();
 
+      print('RemoveItemEvent.id=${event.id} ${event.direction}');
+
       emit(state.copyWith(
         items: state.items.where((item) => item.id != event.id).toList(),
       ));
 
       if (event.direction == DismissDirection.endToStart) {
-        ServiceMock.instance()?.remove(event.id); //  Remove from App
-        print('Remove [${event.id}] simulator -> # ${ServiceMock.instance()?.size()}');
+        //ServiceMock.instance()?.remove(event.id); //  Remove from App
+        //print('Remove [${event.id}] simulator -> # ${ServiceMock.instance()?.size()}');
 
 
 

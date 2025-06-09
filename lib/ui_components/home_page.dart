@@ -72,13 +72,13 @@ class HomePage extends StatelessWidget {
                       key: Key(item.id),
                       direction: DismissDirection.horizontal,
                       onDismissed: (direction) {
-                        ServiceMock.instance()?.dispose(item.id);
+                        //@ServiceMock.instance()?.dispose(item.id);
                         context.read<ItemsBloc>().add(RemoveItemEvent(item.id, item.graphWidget, direction));
                         if (direction == DismissDirection.endToStart) {
                           context.read<AppBloc>().add(SendData('delete_object', item.id));
                         }
                         else {
-                          context.read<AppBloc>().add(SendData('mark_object', item.id));
+                          context.read<AppBloc>().add(SendData('mark_object_unused', item.id));
                         }
                       },
                       //  Swipe left->right

@@ -83,8 +83,20 @@ class ServiceTaskHandler extends TaskHandler {
       // 'numbers': numbers,
       'response': 'counter',
       'value': counter,
-
     });
+
+    if (size() == 0) {
+      return;
+    }
+
+    container.forEach((key, value) {
+      print('loop ${value.id()} : ${value.presence()}');
+      createGuiItemIfNeed(key);
+      // List<double> rawData = value.generateRawData();
+      // value.putData(rawData);
+      // _appBloc?.add(UpdateDataEvent(value.presence(), key, []));
+    });
+
   }
 
   @override
@@ -131,10 +143,21 @@ class ServiceTaskHandler extends TaskHandler {
         // });
       }
       else
-      if (command == 'mark_object') {
+      if (command == 'mark_object_unused') {
         String id = receivedData;
-        print ('mark_object -> [$id]');
+        print ('mark_object_unused -> [$id]');
         markUnused(id);
+        // Send data to app
+        // _sendPort?.send({
+        //   'response': 'created',
+        //   'value': id,
+        // });
+      }
+      else
+      if (command == 'mark_object_used') {
+        String id = receivedData;
+        print ('mark_object_used -> [$id]');
+        markUsed(id);
         // Send data to app
         // _sendPort?.send({
         //   'response': 'created',
@@ -181,6 +204,44 @@ class ServiceTaskHandler extends TaskHandler {
       container[id]?.setItemPresence(false);
     }
     print ('markUnused, size->[${size()}]');
+  }
+
+  void markUsed(String? id,) {
+    if (container.containsKey(id)) {
+      container[id]?.setItemPresence(true);
+    }
+    print ('markUsed, size->[${size()}]');
+  }
+
+  void createGuiItemIfNeed(String key) {
+    SimulatorWrapper? wrapper = get(key);
+    if (wrapper == null) {
+      return;
+    }
+
+    if (wrapper.presence()) {
+      print ('createGuiItemIfNeed [$key] - leave');
+      return;
+    }
+
+    print ('createGuiItemIfNeed [$key] - recreate');
+
+    wrapper.setItemPresence(true);
+
+    _sendPort?.send({
+      'response': 'created',  //  <- restored
+      'value': wrapper.id(),
+    });
+
+
+  }
+
+  SimulatorWrapper? get(String? id) {
+    SimulatorWrapper? result;
+    if (container.containsKey(id)) {
+      result = container[id];
+    }
+    return result;
   }
 
 //////////////////////////////////////////////////////////////////////////////////////////
