@@ -93,10 +93,14 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       if (data is Map && data.containsKey('response') && data.containsKey('value')) {
         String command = data['response'] as String;
         print('listener.command->[$command]');
-        int counter = 0;
         if (command == 'counter') {
-          counter = data['value'] as int;
+          int counter = data['value'] as int;
           add(UpdateData(counter));
+        }
+        if (command == 'created') {
+          String id = data['value'] as String;
+          print ('listener.command->add item [$id]');
+          ServiceMock.instance()?.createGuiItem(id);
         }
       }
 

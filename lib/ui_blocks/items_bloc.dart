@@ -87,8 +87,11 @@ class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
       ));
 
       if (event.direction == DismissDirection.endToStart) {
-        ServiceMock.instance()?.remove(event.id);
+        ServiceMock.instance()?.remove(event.id); //  Remove from App
         print('Remove [${event.id}] simulator -> # ${ServiceMock.instance()?.size()}');
+
+
+
       }
       else {
         ServiceMock.instance()?.markPresence(event.id, false);

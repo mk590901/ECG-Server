@@ -110,14 +110,36 @@ class ServiceTaskHandler extends TaskHandler {
       final String command = data['command'] as String;
       final String receivedData = data['data'] as String;
       print('Service received: $command:($receivedData)');
-      if (command == 'add_item') {
+      if (command == 'create_object') {
         String? id = add()?? '';
-        print ('add item -> [$id]');
+        print ('add create_object -> [$id]');
         // Send data to app
         _sendPort?.send({
-          'response': 'added',
+          'response': 'created',
           'value': id,
         });
+      }
+      else
+      if (command == 'delete_object') {
+        String id = receivedData;
+        print ('delete_object -> [$id]');
+        remove(id);
+        // Send data to app
+        // _sendPort?.send({
+        //   'response': 'created',
+        //   'value': id,
+        // });
+      }
+      else
+      if (command == 'mark_object') {
+        String id = receivedData;
+        print ('mark_object -> [$id]');
+        markUnused(id);
+        // Send data to app
+        // _sendPort?.send({
+        //   'response': 'created',
+        //   'value': id,
+        // });
       }
 
 
@@ -140,6 +162,27 @@ class ServiceTaskHandler extends TaskHandler {
     container[wrapper.id()] = wrapper;
     return wrapper.id();
   }
+
+  void remove(String? id) {
+    if (container.containsKey(id)) {
+      container.remove(id);
+    }
+
+    print ('remove, size->[${size()}]');
+
+    // if (size() == 0) {
+    //   stop();
+    // }
+
+  }
+
+  void markUnused(String? id,) {
+    if (container.containsKey(id)) {
+      container[id]?.setItemPresence(false);
+    }
+    print ('markUnused, size->[${size()}]');
+  }
+
 //////////////////////////////////////////////////////////////////////////////////////////
 }
 

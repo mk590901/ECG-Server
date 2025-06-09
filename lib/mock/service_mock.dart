@@ -128,10 +128,11 @@ class ServiceMock {
 
   void stop() {
 
-    if (_timer != null && _timer!.isActive) {
-      _timer?.cancel();
-    }
-    _timer = null;
+    // if (_timer != null && _timer!.isActive) {
+    //   _timer?.cancel();
+    // }
+    // _timer = null;
+
     print ('------- callbackFunction.stop -------');
 
     // Maybe remove content of List<Item>
@@ -161,6 +162,21 @@ class ServiceMock {
     }
     wrapper.setItemPresence(true);
     _itemsBloc?.add(AddItemEvent(key, wrapper.length()));
+  }
+
+  void createGuiItem(String key) {
+    if (_itemsBloc == null) {
+      return;
+    }
+    if (itemsListContains(key)) {
+      return;
+    }
+//    SimulatorWrapper? wrapper = get(key);
+//    if (wrapper == null) {
+//     return;
+//    }
+    //wrapper.setItemPresence(true);
+    _itemsBloc?.add(AddItemEvent(key, 128));
   }
 
   bool itemsListContains(String key) {

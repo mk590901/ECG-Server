@@ -33,9 +33,9 @@ class GraphWidget extends StatelessWidget {
         (samplesNumber.toDouble() / (PERIOD.toDouble() / FREQ.toDouble())).toInt() + 1;
     ecgWrapper = ECGWrapper(uuid, samplesNumber, 5, pointsToDraw, mode);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      postBuildAction();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   postBuildAction();
+    // });
 
   }
 

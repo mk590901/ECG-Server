@@ -74,6 +74,12 @@ class HomePage extends StatelessWidget {
                       onDismissed: (direction) {
                         ServiceMock.instance()?.dispose(item.id);
                         context.read<ItemsBloc>().add(RemoveItemEvent(item.id, item.graphWidget, direction));
+                        if (direction == DismissDirection.endToStart) {
+                          context.read<AppBloc>().add(SendData('delete_object', item.id));
+                        }
+                        else {
+                          context.read<AppBloc>().add(SendData('mark_object', item.id));
+                        }
                       },
                       //  Swipe left->right
                       background: Container(
@@ -101,7 +107,7 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (context.read<AppBloc>().state.isRunning) {
-            context.read<AppBloc>().add(SendData('add_item',''));
+            context.read<AppBloc>().add(SendData('create_object',''));
             // context.read<ItemsBloc>().add(
             //   CreateItemEvent((objectId,series) {
             //     context.read<ItemsBloc>().add(AddItemEvent(objectId, series));
