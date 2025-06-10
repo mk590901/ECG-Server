@@ -133,6 +133,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           // numbers: state.numbers,
         ));
       }
+      else {
+        print('------- Service already running -------');
+      }
     });
 
     on<StopService>((event, emit) async {

@@ -31,21 +31,20 @@ class ServiceMock {
     return _instance;
   }
 
-  // String? add() {
-  //
-  //     SimulatorWrapper wrapper = SimulatorWrapper();
-  //     _lock.synchronized(() {
-  //       container[wrapper.id()] = wrapper;
-  //     });
-  //
-  //     print ('*** ServiceMock.add [${wrapper.id()}]');
-  //
-  //     if (size() == 1) {
-  //       start();
-  //     }
-  //     return wrapper.id();
-  // }
+  String? add() { // Only for tests
 
+      SimulatorWrapper wrapper = SimulatorWrapper();
+      _lock.synchronized(() {
+        container[wrapper.id()] = wrapper;
+      });
+
+      print ('*** ServiceMock.add [${wrapper.id()}]');
+
+      if (size() == 1) {
+        start();
+      }
+      return wrapper.id();
+  }
 
   void create(String id, int? length){
 
