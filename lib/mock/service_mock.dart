@@ -31,22 +31,34 @@ class ServiceMock {
     return _instance;
   }
 
-  String? add() {
+  // String? add() {
+  //
+  //     SimulatorWrapper wrapper = SimulatorWrapper();
+  //     _lock.synchronized(() {
+  //       container[wrapper.id()] = wrapper;
+  //     });
+  //
+  //     print ('*** ServiceMock.add [${wrapper.id()}]');
+  //
+  //     if (size() == 1) {
+  //       start();
+  //     }
+  //     return wrapper.id();
+  // }
 
-      SimulatorWrapper wrapper = SimulatorWrapper();
-      _lock.synchronized(() {
-        container[wrapper.id()] = wrapper;
-      });
 
-      if (size() == 1) {
-        start();
-      }
+  void create(String id, int? length){
 
-      return wrapper.id();
+    SimulatorWrapper wrapper = SimulatorWrapper.part(id, length?? 128);
+    _lock.synchronized(() {
+      container[wrapper.id()] = wrapper;
+    });
 
-    // SimulatorWrapper wrapper = SimulatorWrapper();
-    // container[wrapper.id()] = wrapper;
-    // return wrapper.id();
+    print ('*** ServiceMock.create [${wrapper.id()}]');
+
+    if (size() == 1) {
+      start();
+    }
   }
 
   void remove(String? id) {
@@ -56,6 +68,8 @@ class ServiceMock {
         container.remove(id);
       }
     });
+
+    print ('*** ServiceMock.remove [$id]');
 
     if (size() == 0) {
       stop();
@@ -70,6 +84,7 @@ class ServiceMock {
       }
     });
 
+    print ('*** ServiceMock.markPresence [$id:$presence]');
   }
 
   SimulatorWrapper? get(String? id) {
@@ -171,11 +186,6 @@ class ServiceMock {
     if (itemsListContains(key)) {
       return;
     }
-//    SimulatorWrapper? wrapper = get(key);
-//    if (wrapper == null) {
-//     return;
-//    }
-    //wrapper.setItemPresence(true);
     _itemsBloc?.add(AddItemEvent(key, length));
   }
 
@@ -232,5 +242,7 @@ class ServiceMock {
     }
     return result;
   }
+
+
 
 }

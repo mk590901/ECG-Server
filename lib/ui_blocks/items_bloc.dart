@@ -11,11 +11,11 @@ import 'item_model.dart';
 
 abstract class ItemsEvent {}
 
-class CreateItemEvent extends ItemsEvent {
-  final Function(String, int?) onObjectCreated;
-
-  CreateItemEvent(this.onObjectCreated);
-}
+// class CreateItemEvent extends ItemsEvent {
+//   final Function(String, int?) onObjectCreated;
+//
+//   CreateItemEvent(this.onObjectCreated);
+// }
 
 class AddItemEvent extends ItemsEvent {
   final String id;
@@ -69,20 +69,25 @@ class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
         subtitle: "Sample rate is ${event.length} points/s",
         graphWidget: event.graphWidget,
       );
+
+      ServiceMock.instance()?.create(event.id,event.length);  //  Create in app
+
       emit(state.copyWith(items: [...state.items, newItem]));
     });
 
-    on<CreateItemEvent>((event, emit) async {
-      String objectId = ServiceMock.instance()?.add()?? const Uuid().v4().toString();
-      SimulatorWrapper? wrapper = ServiceMock.instance()?.get(objectId);
-      event.onObjectCreated(objectId, wrapper?.length());
-    });
+    // on<CreateItemEvent>((event, emit) async {
+    //   String objectId = ServiceMock.instance()?.add()?? const Uuid().v4().toString();
+    //   SimulatorWrapper? wrapper = ServiceMock.instance()?.get(objectId);
+    //   event.onObjectCreated(objectId, wrapper?.length());
+    // });
 
     on<RemoveItemEvent>((event, emit) {
 
       //@event.graphWidget.stop();
 
       print('RemoveItemEvent.id=${event.id} ${event.direction}');
+
+      ServiceMock.instance()?.remove(event.id); //  From app
 
       emit(state.copyWith(
         items: state.items.where((item) => item.id != event.id).toList(),
@@ -96,7 +101,7 @@ class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
 
       }
       else {
-        ServiceMock.instance()?.markPresence(event.id, false);
+        //ServiceMock.instance()?.markPresence(event.id, false);
       }
 
     });
