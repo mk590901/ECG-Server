@@ -92,7 +92,7 @@ class ServiceTaskHandler extends TaskHandler {
 
     container.forEach((key, value) {
       print('loop ${value.id()} : ${value.presence()}');
-      createGuiItemIfNeed(key);
+      createSimulatorIfNeed(key);
       // List<double> rawData = value.generateRawData();
       // value.putData(rawData);
       // _appBloc?.add(UpdateDataEvent(value.presence(), key, []));
@@ -222,14 +222,14 @@ class ServiceTaskHandler extends TaskHandler {
     print ('markUsed, size->[${size()}]');
   }
 
-  void createGuiItemIfNeed(String key) {
+  void createSimulatorIfNeed(String key) {
     SimulatorWrapper? wrapper = get(key);
     if (wrapper == null) {
       return;
     }
 
     if (wrapper.presence()) {
-      print ('createGuiItemIfNeed [$key] - leave');
+      print ('createSimulatorIfNeed [$key] - leave');
       return;
     }
 
