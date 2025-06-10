@@ -164,7 +164,7 @@ class ServiceMock {
     _itemsBloc?.add(AddItemEvent(key, wrapper.length()));
   }
 
-  void createGuiItem(String key) {
+  void createGuiItem(String key, int length) {
     if (_itemsBloc == null) {
       return;
     }
@@ -176,7 +176,7 @@ class ServiceMock {
 //     return;
 //    }
     //wrapper.setItemPresence(true);
-    _itemsBloc?.add(AddItemEvent(key, 128));
+    _itemsBloc?.add(AddItemEvent(key, length));
   }
 
   bool itemsListContains(String key) {

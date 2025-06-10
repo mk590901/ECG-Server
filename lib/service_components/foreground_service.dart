@@ -5,6 +5,7 @@ import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'dart:math';
 
 //import '../data_collection/data_holder.dart';
+import '../data_collection/pair_data_object.dart';
 import '../ecg_simulator/ecg_simulator.dart';
 import '../mock/simulator_wrapper.dart';
 
@@ -123,12 +124,15 @@ class ServiceTaskHandler extends TaskHandler {
       final String receivedData = data['data'] as String;
       print('Service received: $command:($receivedData)');
       if (command == 'create_object') {
-        String? id = add()?? '';
-        print ('add create_object -> [$id]');
+        //String? id = add()?? '';
+        //print ('add create_object -> [$id]');
+        Pair pair = add();
+        String id = pair.uuid();
+        int length = pair.counter();
         // Send data to app
         _sendPort?.send({
           'response': 'created',
-          'value': id,
+          'value': {'id': id, 'length': length, },
         });
       }
       else
@@ -180,10 +184,15 @@ class ServiceTaskHandler extends TaskHandler {
     return container.length;
   }
 
-  String? add() {
+  // String? add() {
+  //   SimulatorWrapper wrapper = SimulatorWrapper();
+  //   container[wrapper.id()] = wrapper;
+  //   return wrapper.id();
+  // }
+  Pair add() {
     SimulatorWrapper wrapper = SimulatorWrapper();
     container[wrapper.id()] = wrapper;
-    return wrapper.id();
+    return Pair(wrapper.id(),wrapper.length());
   }
 
   void remove(String? id) {
@@ -230,7 +239,7 @@ class ServiceTaskHandler extends TaskHandler {
 
     _sendPort?.send({
       'response': 'created',  //  <- restored
-      'value': wrapper.id(),
+      'value': {'id': wrapper.id(), 'length': wrapper.length(), }, //wrapper.id(),
     });
 
 
