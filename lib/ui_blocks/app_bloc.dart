@@ -110,7 +110,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           Map map = data['value'] as Map;
           String id = map['id'];
           int length = map['length'];
-          print ('listener.command->restored [$id]');
+          print ('listener.command->restored [$id]:[$length]');
           //ServiceMock.instance()?.createGuiItem(id, length);
         }
 
