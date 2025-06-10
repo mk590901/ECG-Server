@@ -90,12 +90,6 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
     on<SendData>((event, emit) async {
       print('Sending data to service: ${event.data}');
       FlutterForegroundTask.sendData({'data': event.data});
-      // Simulate service response
-      // await FlutterForegroundTask.updateService(
-      //   foregroundTaskOptions: const ForegroundTaskOptions(),
-      //   notificationTitle: 'Foreground Service',
-      //   notificationText: 'Received: ${event.data}',
-      // );
       emit(ServiceState(
         isServiceRunning: state.isServiceRunning,
         counter: state.counter,

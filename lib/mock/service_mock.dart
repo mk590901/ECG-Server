@@ -180,6 +180,9 @@ class ServiceMock {
   }
 
   void createGuiItem(String key, int length) {
+
+    print ('ServiceMock.createGuiItem [$key:$length]');
+
     if (_itemsBloc == null) {
       return;
     }

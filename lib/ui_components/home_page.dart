@@ -108,11 +108,6 @@ class HomePage extends StatelessWidget {
         onPressed: () {
           if (context.read<AppBloc>().state.isRunning) {
             context.read<AppBloc>().add(SendData('create_object',''));
-            // context.read<ItemsBloc>().add(
-            //   CreateItemEvent((objectId,series) {
-            //     context.read<ItemsBloc>().add(AddItemEvent(objectId, series));
-            //   }),
-            // );
           }
           else {
             showToast(context, "Service isn't run");

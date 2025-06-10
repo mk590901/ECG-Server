@@ -5,6 +5,7 @@ import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'dart:math';
 
 //import '../data_collection/data_holder.dart';
+import '../data_collection/message_handler.dart';
 import '../data_collection/pair_data_object.dart';
 import '../ecg_simulator/ecg_simulator.dart';
 import '../mock/simulator_wrapper.dart';
@@ -45,17 +46,22 @@ class ServiceTaskHandler extends TaskHandler {
   //final EcgSimulator ecgSimulator = EcgSimulator(128);
   SendPort? _sendPort;
 
+  // final MessageHandler handler = MessageHandler<Function>();
+  //
+  // ServiceTaskHandler() {
+  //   handler.messages.listen((callback) {
+  //     callback?.call();
+  //   });
+  // }
+
   @override
   void onStart(DateTime timestamp, SendPort? sendPort) async {
     _sendPort = sendPort;
     print('Foreground service started');
     // Send initial data
     _sendPort?.send({
-      // 'counter': counter,
-      // 'numbers': [],
       'response': 'counter',
       'value': counter,
-
     });
   }
 
@@ -69,19 +75,10 @@ class ServiceTaskHandler extends TaskHandler {
       foregroundTaskOptions: const ForegroundTaskOptions(interval: 1000,),
       notificationTitle: 'Foreground Service',
       notificationText: '${DateTime.now()}\ncounter: $counter',
-      //notificationText: 'Counter: $counter, Numbers: ${numbers.map((n) => n.toStringAsFixed(2)).join(', ')}',
-      // notificationIcon: NotificationIconData(
-      //   resType: ResourceType.mipmap,
-      //   resPrefix: ResourcePrefix.ic,
-      //   name: 'com.example.flutter_fb_task.HEART_ICON',
-      //   backgroundColor: Color(0xFF202020),
-      // ),
     );
 
     // Send data to app
     sendPort?.send({
-      // 'counter': counter,
-      // 'numbers': numbers,
       'response': 'counter',
       'value': counter,
     });
@@ -92,7 +89,7 @@ class ServiceTaskHandler extends TaskHandler {
 
     container.forEach((key, value) {
       print('loop ${value.id()} : ${value.presence()}');
-      createSimulatorIfNeed(key);
+      createSimulatorIfNeed(sendPort, key);
       // List<double> rawData = value.generateRawData();
       // value.putData(rawData);
       // _appBloc?.add(UpdateDataEvent(value.presence(), key, []));
@@ -124,16 +121,25 @@ class ServiceTaskHandler extends TaskHandler {
       final String receivedData = data['data'] as String;
       print('Service received: $command:($receivedData)');
       if (command == 'create_object') {
-        //String? id = add()?? '';
-        //print ('add create_object -> [$id]');
         Pair pair = add();
         String id = pair.uuid();
         int length = pair.counter();
         // Send data to app
+        print ('Send data to app -> [created]');
+
+        // handler.sendMessage(() {
+        //   _sendPort?.send({
+        //     'response': 'created',
+        //     'value': {'id': id, 'length': length, },
+        //   });
+        //
+        // });
+
         _sendPort?.send({
           'response': 'created',
           'value': {'id': id, 'length': length, },
         });
+
       }
       else
       if (command == 'delete_object') {
@@ -222,7 +228,7 @@ class ServiceTaskHandler extends TaskHandler {
     print ('markUsed, size->[${size()}]');
   }
 
-  void createSimulatorIfNeed(String key) {
+  void createSimulatorIfNeed(SendPort? sendPort, String key) {
     SimulatorWrapper? wrapper = get(key);
     if (wrapper == null) {
       return;
@@ -230,6 +236,12 @@ class ServiceTaskHandler extends TaskHandler {
 
     if (wrapper.presence()) {
       print ('createSimulatorIfNeed [$key] - leave');
+
+      sendPort?.send({
+        'response': 'restored',  //  <- restored
+        'value': {'id': wrapper.id(), 'length': wrapper.length(), }, //wrapper.id(),
+      });
+
       return;
     }
 
@@ -237,7 +249,7 @@ class ServiceTaskHandler extends TaskHandler {
 
     wrapper.setItemPresence(true);
 
-    _sendPort?.send({
+    sendPort?.send({
       'response': 'created',  //  <- restored
       'value': {'id': wrapper.id(), 'length': wrapper.length(), }, //wrapper.id(),
     });
