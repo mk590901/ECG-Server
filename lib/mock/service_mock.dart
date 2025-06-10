@@ -56,9 +56,10 @@ class ServiceMock {
 
     print ('*** ServiceMock.create [${wrapper.id()}]');
 
-    if (size() == 1) {
-      start();
-    }
+    // if (size() == 1) {
+    //   start();
+    // }
+
   }
 
   void remove(String? id) {
@@ -71,9 +72,9 @@ class ServiceMock {
 
     print ('*** ServiceMock.remove [$id]');
 
-    if (size() == 0) {
-      stop();
-    }
+    // if (size() == 0) {
+    //   stop();
+    // }
 
   }
 
