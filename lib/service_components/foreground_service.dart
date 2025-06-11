@@ -125,7 +125,7 @@ class ServiceTaskHandler extends TaskHandler {
         String id = pair.uuid();
         int length = pair.counter();
         // Send data to app
-        print ('Send data to app -> [created]');
+        print ('Send data to app -> [created] [$id][$length]');
 
         // handler.sendMessage(() {
         //   _sendPort?.send({
@@ -135,10 +135,10 @@ class ServiceTaskHandler extends TaskHandler {
         //
         // });
 
-        _sendPort?.send({
-          'response': 'created',
-          'value': {'id': id, 'length': length, },
-        });
+        // _sendPort?.send({
+        //   'response': 'created',
+        //   'value': {'id': id, 'length': length, },
+        // });
 
       }
       else
@@ -234,25 +234,33 @@ class ServiceTaskHandler extends TaskHandler {
       return;
     }
 
+
+    // if (wrapper.presence()) {
+    //   print ('createSimulatorIfNeed [$key] - leave');
+    //
+    //   sendPort?.send({
+    //     'response': 'restored',  //  <- restored
+    //     'value': {'id': wrapper.id(), 'length': wrapper.length(), }, //wrapper.id(),
+    //   });
+    //
+    //   return;
+    // }
+    //
+    // print ('createGuiItemIfNeed [$key] - recreate');
+
     if (wrapper.presence()) {
-      print ('createSimulatorIfNeed [$key] - leave');
-
-      sendPort?.send({
-        'response': 'restored',  //  <- restored
-        'value': {'id': wrapper.id(), 'length': wrapper.length(), }, //wrapper.id(),
-      });
-
-      return;
+      wrapper.setItemPresence(true);
     }
 
-    print ('createGuiItemIfNeed [$key] - recreate');
-
-    wrapper.setItemPresence(true);
-
     sendPort?.send({
-      'response': 'created',  //  <- restored
+      'response': 'sync',  //  <- restored
       'value': {'id': wrapper.id(), 'length': wrapper.length(), }, //wrapper.id(),
     });
+
+    // sendPort?.send({
+    //   'response': 'created',  //  <- restored
+    //   'value': {'id': wrapper.id(), 'length': wrapper.length(), }, //wrapper.id(),
+    // });
 
 
   }

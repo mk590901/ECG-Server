@@ -106,12 +106,12 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           ServiceMock.instance()?.createGuiItem(id, length);
         }
 
-        if (command == 'restored') {
+        if (command == 'sync') {
           Map map = data['value'] as Map;
           String id = map['id'];
           int length = map['length'];
-          print ('listener.command->restored [$id]:[$length]');
-          //ServiceMock.instance()?.createGuiItem(id, length);
+          print ('listener.command->sync [$id]:[$length]');
+          ServiceMock.instance()?.createGuiItem(id, length);
         }
 
 
