@@ -23,7 +23,7 @@ class CardView extends StatelessWidget {
               style: const TextStyle(fontStyle: FontStyle.italic),
             ),
           ),
-          //@item.graphWidget,  //<- must be restore
+          item.graphWidget,  //<- must be restore
         ],
       ),
     );
