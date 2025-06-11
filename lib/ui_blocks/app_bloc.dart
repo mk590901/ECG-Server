@@ -110,8 +110,12 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           Map map = data['value'] as Map;
           String id = map['id'];
           int length = map['length'];
-          print ('listener.command->sync [$id]:[$length]');
+          List<double> rawData = map['raw_data'];
+          print ('listener.command->sync [$id]:[$length]->(${rawData.length})');
           ServiceMock.instance()?.createGuiItem(id, length);
+          ServiceMock.instance()?.updateRawData(id,rawData);
+
+
         }
 
 

@@ -141,6 +141,17 @@ class ServiceMock {
     });
   }
 
+  void updateRawData(String id, List<double> rawData) {
+    SimulatorWrapper? wrapper = get(id);
+    if (wrapper == null) {
+      print ('Failed to update [$id]');
+      return;
+    }
+    wrapper.putData(rawData);
+    print ('SimulatorWrapper [$id] was updated');
+
+  }
+
   void stop() {
 
     // if (_timer != null && _timer!.isActive) {
@@ -245,7 +256,5 @@ class ServiceMock {
     }
     return result;
   }
-
-
 
 }

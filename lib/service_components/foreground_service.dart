@@ -252,9 +252,11 @@ class ServiceTaskHandler extends TaskHandler {
       wrapper.setItemPresence(true);
     }
 
+    List<double> rawData = wrapper.generateRawData(); //  Generate ECG signel
+
     sendPort?.send({
       'response': 'sync',  //  <- restored
-      'value': {'id': wrapper.id(), 'length': wrapper.length(), }, //wrapper.id(),
+      'value': {'id': wrapper.id(), 'length': wrapper.length(), 'raw_data': rawData, }, //wrapper.id(),
     });
 
     // sendPort?.send({
