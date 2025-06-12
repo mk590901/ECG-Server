@@ -60,7 +60,7 @@ class ItemsState {
 class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
   ItemsBloc() : super(ItemsState(items: [])) {
 
-    ServiceMock.instance()?.setItemsBloc(this);
+    ServiceAdapter.instance()?.setItemsBloc(this);
 
     on<AddItemEvent>((event, emit) {
 
@@ -70,7 +70,7 @@ class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
         graphWidget: event.graphWidget,
       );
 
-      ServiceMock.instance()?.create(event.id,event.length);  //  Create in app
+      ServiceAdapter.instance()?.create(event.id,event.length);  //  Create in app
 
       emit(state.copyWith(items: [...state.items, newItem]));
     });
@@ -87,7 +87,7 @@ class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
 
       print('RemoveItemEvent.id=${event.id} ${event.direction}');
 
-      ServiceMock.instance()?.remove(event.id); //  From app
+      ServiceAdapter.instance()?.remove(event.id); //  From app
 
       emit(state.copyWith(
         items: state.items.where((item) => item.id != event.id).toList(),
@@ -107,6 +107,7 @@ class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
     });
 
     on<ClearItemsEvent>((event, emit) {
+      ServiceAdapter.instance()?.removeItems(); //  From app
       emit(state.copyWith(items: []));
     });
 

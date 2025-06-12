@@ -13,31 +13,31 @@ import 'package:gui_model/mock/service_mock.dart';
 
 void main() {
 
-  ServiceMock.initInstance();
+  ServiceAdapter.initInstance();
 
   String? one = '';
   String? two = '';
 
   test('Service mock creation', () {
-    expect(0, ServiceMock.instance()?.size());
+    expect(0, ServiceAdapter.instance()?.size());
   });
 
   test('Service mock add', () {
-    one = ServiceMock.instance()?.add();
-    expect(1, ServiceMock.instance()?.size());
+    one = ServiceAdapter.instance()?.add();
+    expect(1, ServiceAdapter.instance()?.size());
 
   });
 
   test('Service mock add', () {
-    two = ServiceMock.instance()?.add();
-    expect(2, ServiceMock.instance()?.size());
+    two = ServiceAdapter.instance()?.add();
+    expect(2, ServiceAdapter.instance()?.size());
   });
 
   test('Service mock remove', () {
-    ServiceMock.instance()?.remove(one);
-    expect(1, ServiceMock.instance()?.size());
-    ServiceMock.instance()?.remove(two);
-    expect(0, ServiceMock.instance()?.size());
+    ServiceAdapter.instance()?.remove(one);
+    expect(1, ServiceAdapter.instance()?.size());
+    ServiceAdapter.instance()?.remove(two);
+    expect(0, ServiceAdapter.instance()?.size());
   });
 
 }

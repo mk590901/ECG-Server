@@ -6,8 +6,8 @@ import '../ui_blocks/item_model.dart';
 import '../ui_blocks/items_bloc.dart';
 import 'simulator_wrapper.dart';
 
-class ServiceMock {
-  static ServiceMock? _instance;
+class ServiceAdapter {
+  static ServiceAdapter? _instance;
 
   final Map<String,SimulatorWrapper> container = {};
   final Lock _lock = Lock();
@@ -20,13 +20,13 @@ class ServiceMock {
   late Timer? _timer;
 
   static void initInstance() {
-    _instance ??= ServiceMock();
-    print ('ServiceMock.initInstance -- Ok');
+    _instance ??= ServiceAdapter();
+    print ('ServiceAdapter.initInstance -- Ok');
   }
 
-  static ServiceMock? instance() {
+  static ServiceAdapter? instance() {
     if (_instance == null) {
-      throw Exception("--- ServiceMock was not initialized ---");
+      throw Exception("--- ServiceAdapter was not initialized ---");
     }
     return _instance;
   }
@@ -38,7 +38,7 @@ class ServiceMock {
         container[wrapper.id()] = wrapper;
       });
 
-      print ('*** ServiceMock.add [${wrapper.id()}]');
+      print ('*** ServiceAdapter.add [${wrapper.id()}]');
 
       if (size() == 1) {
         start();
@@ -53,11 +53,7 @@ class ServiceMock {
       container[wrapper.id()] = wrapper;
     });
 
-    print ('*** ServiceMock.create [${wrapper.id()}]');
-
-    // if (size() == 1) {
-    //   start();
-    // }
+    print ('*** ServiceAdapter.create [${wrapper.id()}]');
 
   }
 
@@ -69,12 +65,14 @@ class ServiceMock {
       }
     });
 
-    print ('*** ServiceMock.remove [$id]');
+    print ('*** ServiceAdapter.remove [$id]');
 
-    // if (size() == 0) {
-    //   stop();
-    // }
+  }
 
+  void removeItems() {
+    _lock.synchronized(() {
+      container.clear();
+    });
   }
 
   void markPresence(String? id, bool presence) {
@@ -84,7 +82,7 @@ class ServiceMock {
       }
     });
 
-    print ('*** ServiceMock.markPresence [$id:$presence]');
+    print ('*** ServiceAdapter.markPresence [$id:$presence]');
   }
 
   SimulatorWrapper? get(String? id) {
@@ -126,20 +124,17 @@ class ServiceMock {
       return;
     }
     print ('------- ServiceMock.start -------');
-    _timer = Timer.periodic(_period, (Timer t) {
-      callbackFunction();
-    });
   }
 
-  void callbackFunction() {
-    print ('------- ServiceMock.callbackFunction -------');
-    container.forEach((key, value) {
-      createGuiItemIfNeed(key);
-      List<double> rawData = value.generateRawData();
-      value.putData(rawData);
-      _appBloc?.add(UpdateDataEvent(value.presence(), key, []));
-    });
-  }
+  // void callbackFunction() {
+  //   print ('------- ServiceAdapter.callbackFunction -------');
+  //   container.forEach((key, value) {
+  //     createGuiItemIfNeed(key);
+  //     List<double> rawData = value.generateRawData();
+  //     value.putData(rawData);
+  //     _appBloc?.add(UpdateDataEvent(value.presence(), key, []));
+  //   });
+  // }
 
   void updateRawData(String id, List<double> rawData) {
     SimulatorWrapper? wrapper = get(id);
@@ -154,14 +149,8 @@ class ServiceMock {
 
   void stop() {
 
-    // if (_timer != null && _timer!.isActive) {
-    //   _timer?.cancel();
-    // }
-    // _timer = null;
-
     print ('------- callbackFunction.stop -------');
 
-    // Maybe remove content of List<Item>
     _itemsBloc?.add(ClearItemsEvent());
 
 

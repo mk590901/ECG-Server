@@ -75,7 +75,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   AppBloc() : super(AppState(dataPacket: DataPacket('',[]), isRunning: false, isServer: true)) {
 
-    ServiceMock.instance()?.setAppBloc(this);
+    ServiceAdapter.instance()?.setAppBloc(this);
 
     FlutterForegroundTask.isRunningService.then((isRunning) {
       emit(AppState(
@@ -103,7 +103,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           String id = map['id'];
           int length = map['length'];
           print ('listener.command->add item [$id]');
-          ServiceMock.instance()?.createGuiItem(id, length);
+          ServiceAdapter.instance()?.createGuiItem(id, length);
         }
 
         if (command == 'sync') {
@@ -112,8 +112,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           int length = map['length'];
           List<double> rawData = map['raw_data'];
           print ('listener.command->sync [$id]:[$length]->(${rawData.length})');
-          ServiceMock.instance()?.createGuiItem(id, length);
-          ServiceMock.instance()?.updateRawData(id,rawData);
+          ServiceAdapter.instance()?.createGuiItem(id, length);
+          ServiceAdapter.instance()?.updateRawData(id,rawData);
         }
       }
     });
@@ -145,10 +145,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     on<ToggleRunningEvent>((event, emit) {
       if (state.isRunning) {
-        ServiceMock.instance()?.stop();
+        ServiceAdapter.instance()?.stop();
       }
       else {
-        ServiceMock.instance()?.start();
+        ServiceAdapter.instance()?.start();
       }
       emit(state.copyWith(isRunning: !state.isRunning));
     });

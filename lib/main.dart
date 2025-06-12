@@ -8,7 +8,7 @@ import 'ui_blocks/items_bloc.dart';
 import 'ui_components/home_page.dart';
 
 void main() async {
-  ServiceMock.initInstance();
+  ServiceAdapter.initInstance();
   WidgetsFlutterBinding.ensureInitialized();
   await initializeForegroundService();
   runApp(const FrontendApp());

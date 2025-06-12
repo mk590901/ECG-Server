@@ -16,7 +16,6 @@ class DataExchanger {
     handler.messages.listen((callback) {
       callback?.call();
     });
-
   }
 
   CircularBuffer<double> buffer() {
