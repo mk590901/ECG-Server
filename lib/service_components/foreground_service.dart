@@ -46,14 +46,6 @@ class ServiceTaskHandler extends TaskHandler {
   //final EcgSimulator ecgSimulator = EcgSimulator(128);
   SendPort? _sendPort;
 
-  // final MessageHandler handler = MessageHandler<Function>();
-  //
-  // ServiceTaskHandler() {
-  //   handler.messages.listen((callback) {
-  //     callback?.call();
-  //   });
-  // }
-
   @override
   void onStart(DateTime timestamp, SendPort? sendPort) async {
     _sendPort = sendPort;
@@ -84,15 +76,13 @@ class ServiceTaskHandler extends TaskHandler {
     });
 
     if (size() == 0) {
+      print ('size = 0');
       return;
     }
 
     container.forEach((key, value) {
       print('loop ${value.id()} : ${value.presence()}');
       createSimulatorIfNeed(sendPort, key);
-      // List<double> rawData = value.generateRawData();
-      // value.putData(rawData);
-      // _appBloc?.add(UpdateDataEvent(value.presence(), key, []));
     });
 
   }
@@ -190,11 +180,6 @@ class ServiceTaskHandler extends TaskHandler {
     return container.length;
   }
 
-  // String? add() {
-  //   SimulatorWrapper wrapper = SimulatorWrapper();
-  //   container[wrapper.id()] = wrapper;
-  //   return wrapper.id();
-  // }
   Pair add() {
     SimulatorWrapper wrapper = SimulatorWrapper();
     container[wrapper.id()] = wrapper;

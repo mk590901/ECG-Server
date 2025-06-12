@@ -83,8 +83,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         counter: state.counter,
         isServer: state.isServer,
         dataPacket: state.dataPacket,
-        // inputData: state.inputData,
-        // numbers: state.numbers,
       ));
     });
 

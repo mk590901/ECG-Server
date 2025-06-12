@@ -1,6 +1,7 @@
 // Control panel (Start/Stop и Switch)
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gui_model/ui_blocks/items_bloc.dart';
 
 import '../ui_blocks/app_bloc.dart';
 
@@ -24,7 +25,6 @@ class ControlPanel extends StatelessWidget {
                         : 'Service is Stopped',
                     style: const TextStyle(fontSize: 20),
                   ),
-                  //const Text('Count: 0'),
                 ],
               ),
               const SizedBox(height: 16),
@@ -35,6 +35,7 @@ class ControlPanel extends StatelessWidget {
                     onPressed: () {
                       //context.read<AppBloc>().add(ToggleRunningEvent());
                       if (state.isRunning) {
+                        context.read<ItemsBloc>().add(ClearItemsEvent());
                         context.read<AppBloc>().add(StopService());
                       }
                       else {

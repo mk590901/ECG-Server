@@ -75,11 +75,6 @@ class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
       emit(state.copyWith(items: [...state.items, newItem]));
     });
 
-    // on<CreateItemEvent>((event, emit) async {
-    //   String objectId = ServiceMock.instance()?.add()?? const Uuid().v4().toString();
-    //   SimulatorWrapper? wrapper = ServiceMock.instance()?.get(objectId);
-    //   event.onObjectCreated(objectId, wrapper?.length());
-    // });
 
     on<RemoveItemEvent>((event, emit) {
 
@@ -107,7 +102,7 @@ class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
     });
 
     on<ClearItemsEvent>((event, emit) {
-      ServiceAdapter.instance()?.removeItems(); //  From app
+      //ServiceAdapter.instance()?.removeItems(); //  From app
       emit(state.copyWith(items: []));
     });
 
