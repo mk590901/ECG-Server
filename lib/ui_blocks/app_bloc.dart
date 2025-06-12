@@ -78,14 +78,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           add(UpdateData(counter));
         }
 
-        if (command == 'created') {
-          Map map = data['value'] as Map;
-          String id = map['id'];
-          int length = map['length'];
-          print ('listener.command->add item [$id]');
-          ServiceAdapter.instance()?.createGuiItem(id, length);
-        }
-
         if (command == 'sync') {
           Map map = data['value'] as Map;
           String id = map['id'];

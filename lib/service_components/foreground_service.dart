@@ -115,60 +115,25 @@ class ServiceTaskHandler extends TaskHandler {
         // Send data to app
         print ('Send data to app -> [created] [$id][$length]');
 
-        // handler.sendMessage(() {
-        //   _sendPort?.send({
-        //     'response': 'created',
-        //     'value': {'id': id, 'length': length, },
-        //   });
-        //
-        // });
-
-        // _sendPort?.send({
-        //   'response': 'created',
-        //   'value': {'id': id, 'length': length, },
-        // });
-
       }
       else
       if (command == 'delete_object') {
         String id = receivedData;
         print ('delete_object -> [$id]');
         remove(id);
-        // Send data to app
-        // _sendPort?.send({
-        //   'response': 'created',
-        //   'value': id,
-        // });
       }
       else
       if (command == 'mark_object_unused') {
         String id = receivedData;
         print ('mark_object_unused -> [$id]');
         markUnused(id);
-        // Send data to app
-        // _sendPort?.send({
-        //   'response': 'created',
-        //   'value': id,
-        // });
       }
       else
       if (command == 'mark_object_used') {
         String id = receivedData;
         print ('mark_object_used -> [$id]');
         markUsed(id);
-        // Send data to app
-        // _sendPort?.send({
-        //   'response': 'created',
-        //   'value': id,
-        // });
       }
-
-
-      // FlutterForegroundTask.updateService(
-      //   foregroundTaskOptions: const ForegroundTaskOptions(interval: 1000,),
-      //   notificationTitle: 'Foreground Service',
-      //   notificationText: 'Received: $receivedData',
-      // );
     } else {
       print('Invalid data format: $data');
     }
