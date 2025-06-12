@@ -9,12 +9,6 @@ import 'item_model.dart';
 
 abstract class ItemsEvent {}
 
-// class CreateItemEvent extends ItemsEvent {
-//   final Function(String, int?) onObjectCreated;
-//
-//   CreateItemEvent(this.onObjectCreated);
-// }
-
 class AddItemEvent extends ItemsEvent {
   final String id;
   final int? length;
@@ -27,11 +21,6 @@ class AddItemEvent extends ItemsEvent {
         width: 340,
         height: 100,
         mode: GraphMode.flowing,);
-
-    // if (!graphWidget.isStarted()) {
-    //   graphWidget.start();
-    // }
-
   }
 }
 
@@ -76,8 +65,6 @@ class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
 
     on<RemoveItemEvent>((event, emit) {
 
-      //@event.graphWidget.stop();
-
       print('RemoveItemEvent.id=${event.id} ${event.direction}');
 
       ServiceAdapter.instance()?.remove(event.id); //  From app
@@ -85,22 +72,9 @@ class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
       emit(state.copyWith(
         items: state.items.where((item) => item.id != event.id).toList(),
       ));
-
-      if (event.direction == DismissDirection.endToStart) {
-        //ServiceMock.instance()?.remove(event.id); //  Remove from App
-        //print('Remove [${event.id}] simulator -> # ${ServiceMock.instance()?.size()}');
-
-
-
-      }
-      else {
-        //ServiceMock.instance()?.markPresence(event.id, false);
-      }
-
     });
 
     on<ClearItemsEvent>((event, emit) {
-      //ServiceAdapter.instance()?.removeItems(); //  From app
       emit(state.copyWith(items: []));
     });
 
