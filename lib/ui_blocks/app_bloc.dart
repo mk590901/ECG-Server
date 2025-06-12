@@ -17,13 +17,6 @@ class StartService extends AppEvent {}
 
 class StopService extends AppEvent {}
 
-// class UpdateDataEvent extends AppEvent {
-//   final String id;
-//   final bool presence;
-//   final List<double> rawData;
-//   UpdateDataEvent(this.presence, this.id, this.rawData);
-// }
-
 class UpdateData extends AppEvent {
   final int counter;
   UpdateData(this.counter);
@@ -51,7 +44,6 @@ class AppState {
   AppState copyWith({
     bool? isRunning,
     bool? isServer,
-    //DataPacket? dataPacket,
   }) {
     return AppState(
       isRunning: isRunning ?? this.isRunning,
