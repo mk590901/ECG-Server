@@ -43,7 +43,6 @@ class ServiceTaskHandler extends TaskHandler {
 
   int counter = 0;
   final Random random = Random();
-  //final EcgSimulator ecgSimulator = EcgSimulator(128);
   SendPort? _sendPort;
 
   @override
