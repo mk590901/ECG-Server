@@ -1,4 +1,4 @@
-# ECG Service
+# ECG Server Service
 
 This project is part 3 of ECG Service Roadmap
 
@@ -9,7 +9,7 @@ Connection type - __MQTT__. That is, all applications are physically __MQTT__ cl
 It's quite difficult to write everything right at once. Therefore, the process is divided on some stages:
 1. ✓ Attempt to use the service: project __ECG FB Service__ in repository https://github.com/mk590901/ECG-FB-Service
 2. ✓ Service simulation - the current project. Creation of data structures that allow simulating the receipt and display of ECG signals from multiple clients. In this case, the __service__ is not implemented. Pure imitation.
-3. ✓ From __service__ simulation to a real __service__. 3 = (1 & 2)
+3. ✓ From __service__ simulation to a real __service__ inside server: 3 = (1 & 2)
 4. Development Pack/Unpack ECG Signal procedures
 5. Add __MQTT__ client (like https://github.com/mk590901/mqtt_sink_agent)
 6. 6 = (3 & 4 & 5)
