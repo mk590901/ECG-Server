@@ -114,21 +114,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           print ('listener.command->sync [$id]:[$length]->(${rawData.length})');
           ServiceMock.instance()?.createGuiItem(id, length);
           ServiceMock.instance()?.updateRawData(id,rawData);
-
-
         }
-
-
-
       }
-
-      // if (data is Map && data.containsKey('counter') && data.containsKey('numbers')) {
-      //   int counter = data['counter'] as int;
-      //   //List<double> rawData = List<double>.from(data['numbers'].map((e) => e as double));
-      //   print('receivePort: $counter');
-      //   //DataHolder.instance()?.putData(rawData);
-      //   add(UpdateData(counter));
-      // }
     });
 
     on<StartService>((event, emit) async {
@@ -144,8 +131,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           counter: state.counter,
           isServer: state.isServer,
           dataPacket: state.dataPacket,
-          // inputData: state.inputData,
-          // numbers: state.numbers,
         ));
       }
       else {

@@ -20,8 +20,8 @@ class ControlPanel extends StatelessWidget {
                 children: [
                   Text(
                     state.isRunning
-                        ? 'Pseudo Service is Running'
-                        : 'Pseudo Service is Stopped',
+                        ? 'Service is Running'
+                        : 'Service is Stopped',
                     style: const TextStyle(fontSize: 20),
                   ),
                   //const Text('Count: 0'),
