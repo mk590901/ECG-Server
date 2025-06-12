@@ -19,112 +19,126 @@ class HomePage extends StatelessWidget {
     final ScrollController scrollController = ScrollController();
 
     return PopScope(
-        canPop: false, // Disable the default behavior of the "back" button
-        onPopInvokedWithResult: (didPop, result) async {
-      if (didPop) return; // If pop has already been executed, do nothing
-      // Show the dialog box
-      final result = await showAppExitDialog(context);
+      canPop: false, // Disable the default behavior of the "back" button
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return; // If pop has already been executed, do nothing
+        // Show the dialog box
+        final result = await showAppExitDialog(context);
 
-      // Processing user selection
-      await reaction(result, context);
-      // For 'ignore' we do nothing, the dialog just closes
-    },
-    child: Scaffold(
-
-      appBar: AppBar(
-        title: const Text('ECG Service App',
+        // Processing user selection
+        await reaction(result, context);
+        // For 'ignore' we do nothing, the dialog just closes
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'ECG Service App',
             style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontStyle: FontStyle.italic)),
-        leading: IconButton(
-          icon: const Icon(CupertinoIcons.heart_solid,
-              color: Colors.white), // Icon widget
-          onPressed: () {
-            // Add onPressed logic here if need
-          },
-        ),
-        backgroundColor: Colors.lightBlue,
-      ),
-
-      body: Column(
-        children: [
-          const ControlPanel(),
-          Expanded(
-            child: BlocConsumer<ItemsBloc, ItemsState>(
-              listener: (context, state) {
-                if (state.items.isNotEmpty) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    scrollController.animateTo(
-                      scrollController.position.maxScrollExtent,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeOut,
-                    );
-                  });
-                }
-              },
-              builder: (context, state) {
-                return ListView.builder(
-                  controller: scrollController,
-                  itemCount: state.items.length,
-                  itemBuilder: (context, index) {
-                    final item = state.items[index];
-                    return Dismissible(
-                      key: Key(item.id),
-                      direction: DismissDirection.horizontal,
-                      onDismissed: (direction) {
-                        ServiceAdapter.instance()?.dispose(item.id);
-                        context.read<ItemsBloc>().add(RemoveItemEvent(item.id, item.graphWidget, direction));
-                        if (direction == DismissDirection.endToStart) {
-                          context.read<AppBloc>().add(SendData('delete_object', item.id));
-                        }
-                        else {
-                          context.read<AppBloc>().add(SendData('mark_object_unused', item.id));
-                        }
-                      },
-                      //  Swipe left->right
-                      background: Container(
-                        color: Colors.blueGrey.shade200,
-                        alignment: Alignment.centerRight,
-                        padding: const EdgeInsets.only(right: 16),
-                        child: const Icon(Icons.delete, color: Colors.white),
-                      ),
-                      //  Swipe right->left
-                      secondaryBackground: Container(
-                        color: Colors.deepPurple.shade200,
-                        alignment: Alignment.centerLeft,
-                        padding: const EdgeInsets.only(left: 16),
-                        child: const Icon(Icons.delete_forever, color: Colors.white),
-                      ),
-                      child: CardView(item: item),
-                    );
-                  },
-                );
-              },
+              color: Colors.white,
+              fontSize: 16,
+              fontStyle: FontStyle.italic,
             ),
           ),
-        ],
+          leading: IconButton(
+            icon: const Icon(
+              CupertinoIcons.heart_solid,
+              color: Colors.white,
+            ), // Icon widget
+            onPressed: () {
+              // Add onPressed logic here if need
+            },
+          ),
+          backgroundColor: Colors.lightBlue,
+        ),
+
+        body: Column(
+          children: [
+            const ControlPanel(),
+            Expanded(
+              child: BlocConsumer<ItemsBloc, ItemsState>(
+                listener: (context, state) {
+                  if (state.items.isNotEmpty) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      scrollController.animateTo(
+                        scrollController.position.maxScrollExtent,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeOut,
+                      );
+                    });
+                  }
+                },
+                builder: (context, state) {
+                  return ListView.builder(
+                    controller: scrollController,
+                    itemCount: state.items.length,
+                    itemBuilder: (context, index) {
+                      final item = state.items[index];
+                      return Dismissible(
+                        key: Key(item.id),
+                        direction: DismissDirection.horizontal,
+                        onDismissed: (direction) {
+                          ServiceAdapter.instance()?.dispose(item.id);
+                          context.read<ItemsBloc>().add(
+                            RemoveItemEvent(
+                              item.id,
+                              item.graphWidget,
+                              direction,
+                            ),
+                          );
+                          if (direction == DismissDirection.endToStart) {
+                            context.read<AppBloc>().add(
+                              SendData('delete_object', item.id),
+                            );
+                          } else {
+                            context.read<AppBloc>().add(
+                              SendData('mark_object_unused', item.id),
+                            );
+                          }
+                        },
+                        //  Swipe left->right
+                        background: Container(
+                          color: Colors.blueGrey.shade200,
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.only(right: 16),
+                          child: const Icon(Icons.delete, color: Colors.white),
+                        ),
+                        //  Swipe right->left
+                        secondaryBackground: Container(
+                          color: Colors.deepPurple.shade200,
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.only(left: 16),
+                          child: const Icon(
+                            Icons.delete_forever,
+                            color: Colors.white,
+                          ),
+                        ),
+                        child: CardView(item: item),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            if (context.read<AppBloc>().state.isRunning) {
+              context.read<AppBloc>().add(SendData('create_object', ''));
+            } else {
+              showToast(context, "Service isn't run");
+            }
+          },
+          child: const Icon(Icons.add),
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (context.read<AppBloc>().state.isRunning) {
-            context.read<AppBloc>().add(SendData('create_object',''));
-          }
-          else {
-            showToast(context, "Service isn't run");
-          }
-        },
-        child: const Icon(Icons.add),
-      ),
-    ),
     );
   }
 
   Future<String?> showAppExitDialog(BuildContext context) {
     return showDialog<String>(
       context: context,
-      builder:
-          (context) => AlertDialog(
+      builder: (context) => AlertDialog(
         title: Text(
           'Application exit',
           style: TextStyle(fontSize: 16, color: Colors.blueAccent),
@@ -193,5 +207,4 @@ class HomePage extends StatelessWidget {
       await SystemNavigator.pop();
     }
   }
-
 }
