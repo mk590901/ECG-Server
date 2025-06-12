@@ -7,12 +7,6 @@ import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import '../gui_adapter/service_adapter.dart';
 import '../service_components/foreground_service.dart';
 
-// class DataPacket {
-//   final String id;
-//   final List<double> rawData;
-//   DataPacket(this.id, this.rawData);
-// }
-
 abstract class AppEvent {}
 
 class ToggleRunningEvent extends AppEvent {}
@@ -23,12 +17,12 @@ class StartService extends AppEvent {}
 
 class StopService extends AppEvent {}
 
-class UpdateDataEvent extends AppEvent {
-  final String id;
-  final bool presence;
-  final List<double> rawData;
-  UpdateDataEvent(this.presence, this.id, this.rawData);
-}
+// class UpdateDataEvent extends AppEvent {
+//   final String id;
+//   final bool presence;
+//   final List<double> rawData;
+//   UpdateDataEvent(this.presence, this.id, this.rawData);
+// }
 
 class UpdateData extends AppEvent {
   final int counter;
@@ -46,14 +40,12 @@ class AppState {
   final bool isServer;
   final int counter;
   final String sentData;
-  //final DataPacket dataPacket;
 
   AppState( {
     required this.isRunning,
     this.counter = 0,
     this.sentData = '',
     required this.isServer,
-    //required this.dataPacket
   });
 
   AppState copyWith({
@@ -64,7 +56,6 @@ class AppState {
     return AppState(
       isRunning: isRunning ?? this.isRunning,
       isServer: isServer ?? this.isServer,
-      //dataPacket: dataPacket ?? this.dataPacket,
     );
   }
 }
@@ -82,8 +73,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         isRunning: isRunning,
         counter: state.counter,
         isServer: state.isServer,
-        //dataPacket: state.dataPacket,
-      ));
+       ));
     });
 
     _dataSubscription = FlutterForegroundTask.receivePort?.listen((data) {
@@ -128,7 +118,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           isRunning: true,
           counter: state.counter,
           isServer: state.isServer,
-          //dataPacket: state.dataPacket,
         ));
       }
       else {
@@ -138,7 +127,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     on<StopService>((event, emit) async {
       await FlutterForegroundTask.stopService();
-      emit(AppState(isRunning: false, counter: 0, isServer: state.isServer, /*dataPacket: state.dataPacket,*/));
+      emit(AppState(isRunning: false, counter: 0, isServer: state.isServer, ));
     });
 
     on<ToggleRunningEvent>((event, emit) {
@@ -155,20 +144,13 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       emit(state.copyWith(isServer: !state.isServer));
     });
 
-    // on<UpdateDataEvent>((event, emit) {
-    //   print ('UpdateDataEvent [${event.presence}] [${event.id}]');
-    //   emit(state.copyWith(dataPacket: DataPacket(event.id,event.rawData)));
-    // });
-
     on<UpdateData>((event, emit) {
       emit(AppState(
         isRunning: state.isRunning,
         counter: event.counter,
         isServer: state.isServer,
-        //dataPacket: state.dataPacket,
       ));
     });
-
 
     on<SendData>((event, emit) async {
       print('Sending data to service: ${event.command}:${event.data}');
@@ -179,7 +161,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         counter: state.counter,
         sentData: event.data, //  command?
         isServer: state.isServer,
-        //dataPacket: state.dataPacket,
       ));
     });
 
