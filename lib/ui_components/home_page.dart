@@ -38,7 +38,8 @@ class HomePage extends StatelessWidget {
                 fontSize: 16,
                 fontStyle: FontStyle.italic)),
         leading: IconButton(
-          icon: const Icon(CupertinoIcons.heart_solid, color: Colors.white), // Icon widget
+          icon: const Icon(CupertinoIcons.heart_solid,
+              color: Colors.white), // Icon widget
           onPressed: () {
             // Add onPressed logic here if need
           },

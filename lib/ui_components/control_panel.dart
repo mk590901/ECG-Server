@@ -47,18 +47,20 @@ class ControlPanel extends StatelessWidget {
 
                   Text('# ${state.counter}'),
 
-                  Row(
-                    children: [
-                      Text(state.isServer ? 'Server' : 'Client'),
-                      const SizedBox(width: 8),
-                      Switch(
-                        value: state.isServer,
-                        onChanged: (value) {
-                          context.read<AppBloc>().add(ToggleModeEvent());
-                        },
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   children: [
+                  //     Text(state.isServer ? 'Server' : 'Client'),
+                  //     const SizedBox(width: 8),
+                  //     Switch(
+                  //       value: state.isServer,
+                  //       onChanged: (value) {
+                  //         context.read<AppBloc>().add(ToggleModeEvent());
+                  //       },
+                  //     ),
+                  //   ],
+                  // ),
+
+
                 ],
               ),
             ],
