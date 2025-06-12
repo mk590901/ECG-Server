@@ -1,6 +1,6 @@
-# ECG Pseudo Service
+# ECG Service
 
-This project is part 2 of ECG Service Roadmap
+This project is part 3 of ECG Service Roadmap
 
 ## ECG Service Roadmap
 
@@ -9,14 +9,14 @@ Connection type - __MQTT__. That is, all applications are physically __MQTT__ cl
 It's quite difficult to write everything right at once. Therefore, the process is divided on some stages:
 1. ✓ Attempt to use the service: project __ECG FB Service__ in repository https://github.com/mk590901/ECG-FB-Service
 2. ✓ Service simulation - the current project. Creation of data structures that allow simulating the receipt and display of ECG signals from multiple clients. In this case, the __service__ is not implemented. Pure imitation.
-3. From __service__ simulation to a real __service__. 3 = (1 & 2)
+3. ✓ From __service__ simulation to a real __service__. 3 = (1 & 2)
 4. Development Pack/Unpack ECG Signal procedures
 5. Add __MQTT__ client (like https://github.com/mk590901/mqtt_sink_agent)
 6. 6 = (3 & 4 & 5)
 
 ## Application Features
 
-> __Action__ button adds __ECG pseudo client__ to app. With the help of swape client can be deleted. There are two types of deletion:
+> __Action__ button adds __ECG client__ to app. With the help of swape client can be deleted. There are two types of deletion:
 * GUI image of client is deleted: swipe from left to right. In this case, the pseudo client continues to generate a signal and automatically returns to the list.
 * Brutal pseudo client delete from the application: swipe from right to left.
 >__Stop button__ deletes GUI images of clients.
@@ -25,5 +25,7 @@ It's quite difficult to write everything right at once. Therefore, the process i
  
 ## Movie
 
-https://github.com/user-attachments/assets/66a736a1-7cc2-4909-b9bc-ed507d772361
+https://github.com/user-attachments/assets/6ecfdc79-55a7-4dec-b86f-3435a3993b3b
+
+
 
