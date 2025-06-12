@@ -18,22 +18,22 @@ void main() {
   String? one = '';
   String? two = '';
 
-  test('Service mock creation', () {
+  test('Service gui_adapter creation', () {
     expect(0, ServiceAdapter.instance()?.size());
   });
 
-  test('Service mock add', () {
+  test('Service gui_adapter add', () {
     one = ServiceAdapter.instance()?.add();
     expect(1, ServiceAdapter.instance()?.size());
 
   });
 
-  test('Service mock add', () {
+  test('Service gui_adapter add', () {
     two = ServiceAdapter.instance()?.add();
     expect(2, ServiceAdapter.instance()?.size());
   });
 
-  test('Service mock remove', () {
+  test('Service gui_adapter remove', () {
     ServiceAdapter.instance()?.remove(one);
     expect(1, ServiceAdapter.instance()?.size());
     ServiceAdapter.instance()?.remove(two);

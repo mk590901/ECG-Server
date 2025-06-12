@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:isolate';
-import 'dart:ui';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'dart:math';
 
@@ -8,7 +7,7 @@ import 'dart:math';
 import '../data_collection/message_handler.dart';
 import '../data_collection/pair_data_object.dart';
 import '../ecg_simulator/ecg_simulator.dart';
-import '../mock/simulator_wrapper.dart';
+import '../gui_adapter/simulator_wrapper.dart';
 
 // Initialize the foreground service
 Future<void> initializeForegroundService() async {

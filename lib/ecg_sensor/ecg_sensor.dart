@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import '../data_collection/data_exchanger.dart';
-import '../mock/service_adapter.dart';
+import '../gui_adapter/service_adapter.dart';
 
 class ECGSensor {
   static int PERIOD = 1000;

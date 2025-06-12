@@ -1,10 +1,8 @@
 // --- Items BLoC (control elements list) ---
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:uuid/uuid.dart';
 
-import '../mock/service_adapter.dart';
-import '../mock/simulator_wrapper.dart';
+import '../gui_adapter/service_adapter.dart';
 import '../widget/graph_mode.dart';
 import '../widget/graph_widget.dart';
 import 'item_model.dart';

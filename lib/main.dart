@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'mock/service_adapter.dart';
+import 'gui_adapter/service_adapter.dart';
 import 'service_components/foreground_service.dart';
 import 'ui_blocks/app_bloc.dart';
 import 'ui_blocks/items_bloc.dart';
