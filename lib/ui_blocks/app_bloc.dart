@@ -56,7 +56,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   late StreamSubscription? _dataSubscription;
 
-  AppBloc() : super(AppState(/*dataPacket: DataPacket('',[]),*/ isRunning: false, isServer: true)) {
+  AppBloc() : super(AppState(isRunning: false, isServer: true)) {
 
     ServiceAdapter.instance()?.setAppBloc(this);
 

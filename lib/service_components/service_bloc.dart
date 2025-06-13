@@ -6,7 +6,7 @@ import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 //import '../data_collection/data_holder.dart';
 import 'foreground_service.dart';
 
-// Events
+// Events => delete!!!
 abstract class ServiceEvent {}
 
 class StartService extends ServiceEvent {}
