@@ -38,6 +38,8 @@ This command updates the container in the singleton __ServiceAdapter__ in the ap
  
 ## Movie
 
+The movie below shows the application's operation: can add an __ECG__ signal source, remove it from the list temporarily or permanently, and also close the application without deleting the service, and re-open the application via the __notification widget__ and continue working.
+
 https://github.com/user-attachments/assets/6ecfdc79-55a7-4dec-b86f-3435a3993b3b
 
 
