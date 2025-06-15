@@ -58,8 +58,6 @@ class ServiceTaskHandler extends TaskHandler {
   @override
   void onRepeatEvent(DateTime timestamp, SendPort? sendPort) async {
     counter++;
-    List<double> numbers = []; //ecgSimulator.generateECGData();
-    //@print('Foreground service running: $counter, numbers: ${numbers.length}');
     // Update notification
     await FlutterForegroundTask.updateService(
       foregroundTaskOptions: const ForegroundTaskOptions(interval: 1000,),
@@ -156,10 +154,6 @@ class ServiceTaskHandler extends TaskHandler {
 
     print ('remove, size->[${size()}]');
 
-    // if (size() == 0) {
-    //   stop();
-    // }
-
   }
 
   void markUnused(String? id,) {
@@ -182,20 +176,6 @@ class ServiceTaskHandler extends TaskHandler {
       return;
     }
 
-
-    // if (wrapper.presence()) {
-    //   print ('createSimulatorIfNeed [$key] - leave');
-    //
-    //   sendPort?.send({
-    //     'response': 'restored',  //  <- restored
-    //     'value': {'id': wrapper.id(), 'length': wrapper.length(), }, //wrapper.id(),
-    //   });
-    //
-    //   return;
-    // }
-    //
-    // print ('createGuiItemIfNeed [$key] - recreate');
-
     if (wrapper.presence()) {
       wrapper.setItemPresence(true);
     }
@@ -207,12 +187,6 @@ class ServiceTaskHandler extends TaskHandler {
       'value': {'id': wrapper.id(), 'length': wrapper.length(), 'raw_data': rawData, }, //wrapper.id(),
     });
 
-    // sendPort?.send({
-    //   'response': 'created',  //  <- restored
-    //   'value': {'id': wrapper.id(), 'length': wrapper.length(), }, //wrapper.id(),
-    // });
-
-
   }
 
   SimulatorWrapper? get(String? id) {
@@ -222,8 +196,6 @@ class ServiceTaskHandler extends TaskHandler {
     }
     return result;
   }
-
-//////////////////////////////////////////////////////////////////////////////////////////
 }
 
 // Entry point for the foreground task

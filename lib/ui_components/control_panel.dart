@@ -1,9 +1,9 @@
 // Control panel (Start/Stop и Switch)
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gui_model/ui_blocks/items_bloc.dart';
 
 import '../ui_blocks/app_bloc.dart';
+import '../ui_blocks/items_bloc.dart';
 
 class ControlPanel extends StatelessWidget {
   const ControlPanel({super.key});
