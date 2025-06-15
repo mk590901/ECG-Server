@@ -5,14 +5,12 @@ import '../ecg_simulator/ecg_simulator.dart';
 import '../utils.dart';
 
 class SimulatorWrapper {
-  late String _id; // = const Uuid().v4().toString();
-  //final Random random = Random();
-  late int _seriesLength;// = getSeriesLength();
+  late String _id;
+  late int _seriesLength;
 
   late List<double> rawData = [];
 
-  //late final EcgSimulator _ecgSimulator = EcgSimulator(_seriesLength);
-  late EcgSimulator _ecgSimulator; // = EcgSimulator(_seriesLength);
+  late EcgSimulator _ecgSimulator;
   late bool _itemPresence = true;
 
   SimulatorWrapper() {  //  For service
