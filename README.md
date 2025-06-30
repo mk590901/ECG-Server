@@ -1,4 +1,4 @@
-# ECG Server Service
+# ECG Service Server
 
 This project is part 3 of ECG Service Roadmap
 
